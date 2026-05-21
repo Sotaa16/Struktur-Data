@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>TSP Map Solver</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<!-- ══ HEADER ══ -->
+<div id="header">
+  <div id="header-left">
+    <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+      <circle cx="4"  cy="13" r="3" fill="#185FA5"/>
+      <circle cx="13" cy="4"  r="3" fill="#185FA5"/>
+      <circle cx="22" cy="9"  r="3" fill="#185FA5"/>
+      <circle cx="20" cy="21" r="3" fill="#185FA5"/>
+      <circle cx="7"  cy="21" r="3" fill="#185FA5"/>
+      <polyline points="4,13 13,4 22,9 20,21 7,21 4,13"
+                fill="none" stroke="#378ADD" stroke-width="1.4" stroke-linejoin="round"/>
+    </svg>
+    <div>
+      <div class="app-title">TSP Map Solver</div>
+      <div class="app-sub">Traveling Salesman Problem</div>
+    </div>
+  </div>
+  <div id="header-right">
+    <span id="algo-badge"  class="badge badge-blue">NN + 2-Opt</span>
+    <span id="mode-badge"  class="badge badge-teal">🚗 40 km/j</span>
+    <span id="state-badge" class="badge badge-amber">0 titik</span>
+  </div>
+</div>
+
+<!-- ══ BODY ══ -->
+<div id="body">
+
+  <!-- ── SIDEBAR ── -->
+  <div id="sidebar">
+
+    <!-- Algoritma -->
+    <div class="sb-section">
+      <div class="sb-label">Algoritma</div>
+      <select id="algo-select">
+        <option value="nn2opt">Nearest Neighbor + 2-Opt</option>
+        <option value="nn">Nearest Neighbor</option>
+      </select>
+      <div class="speed-row">
+        <label>Animasi</label>
+        <input type="range" id="speed" min="1" max="5" value="3" step="1">
+        <span id="speed-val">3</span>
+      </div>
+    </div>
+
+    <!-- Mode Perjalanan -->
+    <div class="sb-section">
+      <div class="sb-label">Mode Perjalanan</div>
+      <div class="mode-grid">
+        <button class="mode-btn active" data-kph="40">
+          <span class="mode-icon">🚗</span>
+          <span class="mode-name">Mobil</span>
+          <span class="mode-kph">40 km/j</span>
+        </button>
+        <button class="mode-btn" data-kph="30">
+          <span class="mode-icon">🛵</span>
+          <span class="mode-name">Motor</span>
+          <span class="mode-kph">30 km/j</span>
+        </button>
+        <button class="mode-btn" data-kph="15">
+          <span class="mode-icon">🚲</span>
+          <span class="mode-name">Sepeda</span>
+          <span class="mode-kph">15 km/j</span>
+        </button>
+        <button class="mode-btn" data-kph="5">
+          <span class="mode-icon">🚶</span>
+          <span class="mode-name">Jalan</span>
+          <span class="mode-kph">5 km/j</span>
+        </button>
+      </div>
+      <div class="custom-speed-row">
+        <input type="number" id="custom-kph" min="1" max="300" placeholder="Kustom km/j">
+        <button id="btn-apply-kph">Pakai</button>
+      </div>
+      <div class="active-speed-info">
+        Aktif: <strong id="active-kph-label">40 km/j</strong>
+      </div>
+    </div>
+
+    <!-- Aksi -->
+    <div class="sb-section">
+      <div class="sb-label">Aksi</div>
+      <button class="btn btn-primary" id="btn-solve" disabled>⚡ Solve rute</button>
+      <button class="btn" id="btn-random">🎲 Generate acak</button>
+      <button class="btn btn-danger" id="btn-clear">✕ Hapus semua</button>
+    </div>
+
+    <!-- Daftar kota -->
+    <div class="sb-section" style="flex:1">
+      <div class="sb-label">
+        Titik Lokasi &nbsp;<span id="city-count">0</span>
+      </div>
+      <div class="city-list" id="city-list"></div>
+    </div>
+
+  </div><!-- /sidebar -->
+
+  <!-- ── MAP ── -->
+  <div id="map-wrap">
+    <div id="map"></div>
+  </div>
+
+</div><!-- /body -->
+
+<!-- ══ FOOTER METRICS ══ -->
+<div id="footer">
+  <div class="metric">
+    <div class="m-label">Jumlah Titik</div>
+    <div class="m-val" id="m-n">0</div>
+  </div>
+  <div class="metric">
+    <div class="m-label">Jarak rute</div>
+    <div class="m-val" id="m-dist">—</div>
+  </div>
+  <div class="metric highlight">
+    <div class="m-label">⏱ Waktu tempuh</div>
+    <div class="m-val" id="m-travel">—</div>
+  </div>
+</div>
+
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet-src.js"></script>
+
+<script src="app.js"></script>
+</body>
+</html>
